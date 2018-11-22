@@ -1,0 +1,91 @@
+using System;
+
+namespace Pr2_UppgBastu_Stenberg_Bjoern
+{
+    class MainClass
+    {
+        public static Double FahrenheitToCelsius(int fahrenheit) //Typomvandlar fahr från int till double för att kunna bruka decimaler.
+        {
+            double celsius = (fahrenheit - 32) * 5 / 9;
+            return celsius;
+        }
+
+        /*public static Double FahrenheitToCelsius()
+        {
+            return ranNum;
+            Random numGen = new Random();       <-- Här är mitt försök till metodöverlagring. Kom inte alls på varför jag inte får det outputten jag vill ha.
+            double ranNum = numGen.Next(200);       Tar gärna feedback och tips hur man kan göra!
+        }*/
+
+        const Double startTempLimit = (double)0;// 0 celsius, castat med (double).
+        const Double minTempLimit = (double)73; // 73 celsius . Även gjort dessa till "constants" för att de inte ska kunna bli modifierade ifall någon ändrar i koden.
+        const Double desirTempLimit = (double)75; // 75 celsius
+        const Double maxTempLimit = (double)77; // 77 celsius
+
+
+        public static void Main(string[] args)
+        {
+            Console.WriteLine("------------------------------"); //Välkomnst låda/ fras.
+            Console.WriteLine("|         *WELCOME*          |");
+            Console.WriteLine("|            TO              |");
+            Console.WriteLine("|            THE             |");
+            Console.WriteLine("|        *~~SAUNA~~*         |");
+            Console.WriteLine("------------------------------");
+
+            while (true)
+            {
+                Console.WriteLine("Please enter your desired temperature in Fahrenheit: ");
+                Console.WriteLine(" ");
+                Double fahrenheit;
+
+                 //Valde att testa denna undantags- felhantering istället för try catch för att variera mig.
+                while (!Double.TryParse(Console.ReadLine(), out fahrenheit)) //här har vi en undantags- felhantering med TryParse, för att TryParse ska lyckas behövs det en boolean på true eller false samt inmatningen mao. resultatet.
+                {                                                              // med hjälp av "out" kan vi returnera data i inparametrarna. Så här kommer fahrenheit få värdet falskt ifall...
+                                                                           // ...användaren skriver in en bokstav istället för siffror.
+                Console.WriteLine("Please enter a number and try again.");
+                Console.Write("\nEnter your desired Fahrenheit: ");
+            }
+            Double celsius = FahrenheitToCelsius((int)fahrenheit);//Här castar jag int till fahr för att double metoden skall fungera.
+
+            if (celsius < startTempLimit)
+            {
+                Console.WriteLine("The sauna is not on, it is currently: {0:N1} Celsius.\nPlease start the sauna.", celsius); // Bastun är avstängd, ber användaren att sätta igång bastun. {0} kallar på "celsius" i slutet av stringen och ":N" gör det Numeric, med andra ord avrundar talet.
+                Console.WriteLine(" ");
+            }
+            /* else if (Equals(startTempLimit, ranNum))
+            {
+                Console.WriteLine("This went crazy. You got a random temperature: {0:N1}!", ranNum); //Fortsatt försök.
+            } */
+            else if (celsius <= minTempLimit)
+            {
+                Console.WriteLine("The temperature is too low, it is currently: {0:N1} Celsius.\nPlease raise the temperature.", celsius);//Användaren frågas om att ange en högre temperatur.
+                Console.WriteLine(" ");
+            }
+            else if (Equals(celsius, desirTempLimit)) // Då "==" inte fungerar med floaters och double pga. de har olika precisioner av de olika värden, använder jag "to Equals" som min IDE rekommenderade.
+            {                                          // To Equals kollar ifall objecten innanför parantesrna är lika och ifall de är det skriver programmet ut "75".
+                Console.WriteLine("The sauna now has the desired temperature of {0:N1} Celsius, enjoy!", celsius);
+                Console.WriteLine(" ");
+                break; //Har satt en break här för att avbryta loopen ifall temperaturen når den eftersökta temperaturen.
+            }
+            else if (celsius >= maxTempLimit)
+            {
+                Console.WriteLine("The temperature is too high, it is currently: {0:N1} Celsius.\nPlease lower the temperature.", celsius); //Användaren frågas om att ange en lägre temperatur.
+            }
+            else
+            {
+                Console.WriteLine("The current temperature is a comfortable: {0:N1} Celsius.\nPlease enjoy your time in the sauna.", celsius);
+                break; //Avslutar loopen när temperaturen är mellan 73 och 77 grader.
+            }
+        }
+            Console.WriteLine("------------------------------"); //Välkomnst låda/ fras.
+            Console.WriteLine("|  ~~THE PROGRAM IS OVER~~   |");
+            Console.WriteLine("|          *BYE!*            |");
+            Console.WriteLine("------------------------------");
+            Console.WriteLine(" ");
+            Console.Write("Please enter any key to coninue . . . ");//Användaren meddelas att programmet är över och därmed avslutas det.
+            Console.ReadKey();
+        }
+    }
+}
+
+
